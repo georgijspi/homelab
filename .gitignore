@@ -1,0 +1,9 @@
+/vars.nix
+/inventory.nix
+/cloudflare-token.nix
+/secrets/*.json
+/secrets/*.agekey
+/secrets/*.nix
+/.claude/
+/.codex
+/paper-server/
