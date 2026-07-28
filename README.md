@@ -58,7 +58,7 @@ site-specific non-secret values. Secrets go in SOPS, not in `vars.nix`.
 flowchart TD
     Flake[flake.nix] --> Vars{vars source}
     Vars -->|NIXOS_VARS set| CustomVars[custom vars file]
-    Vars -->|default| LocalVars[/etc/nixos/vars.nix]
+    Vars -->|default| LocalVars["/etc/nixos/vars.nix"]
     Flake --> Falcon[nixosConfigurations.falcon]
     CustomVars --> Falcon
     LocalVars --> Falcon
@@ -74,7 +74,7 @@ flowchart TD
 
     Services --> Systemd[systemd services]
     Home --> UserConfig[user tools and shell config]
-    Sops --> RuntimeSecrets[/run/secrets and rendered templates]
+    Sops --> RuntimeSecrets["/run/secrets and rendered templates"]
 ```
 
 The flake is intentionally impure for local evaluation because it reads an
@@ -155,7 +155,7 @@ flowchart TD
     SopsFile[secrets/falcon.yaml] --> Sops
     Sops --> SopsNix[sops-nix]
 
-    SopsNix --> SecretFiles[/run/secrets files]
+    SopsNix --> SecretFiles["/run/secrets files"]
     SopsNix --> Templates[rendered env/config templates]
 
     SecretFiles --> Services[services]
