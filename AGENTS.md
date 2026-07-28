@@ -8,6 +8,7 @@
 
 ## Public-safe layout
 - `flake.nix` / `flake.lock`: flake inputs and NixOS outputs.
+- `README.md`: public-facing repo overview, architecture notes, and operational flow documentation.
 - `hosts/falcon/default.nix`: host entry point, imports host files, base modules, service modules, and third-party flake modules.
 - `hosts/falcon/hardware-configuration.nix`: generated hardware config. Do not edit directly.
 - `hosts/falcon/networking.nix`: static networking, firewall, LAN-only rules, resolved, and SSH.

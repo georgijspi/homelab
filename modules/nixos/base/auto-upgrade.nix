@@ -1,3 +1,5 @@
+{ config, ... }:
+
 {
   system.autoUpgrade = {
     enable = true;
@@ -10,6 +12,10 @@
     randomizedDelaySec = "45min";
     runGarbageCollection = true;
   };
+
+  systemd.services.nixos-upgrade.preStart = ''
+    ${config.nix.package}/bin/nix flake update --flake /etc/nixos
+  '';
 
   nix.gc = {
     automatic = true;

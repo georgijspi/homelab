@@ -11,7 +11,6 @@
       vim
       wget
       git
-      codex
       nodejs
       claude-code
       zellij
@@ -33,7 +32,12 @@
   programs.bash.enable = true;
   programs.zsh = {
     enable = true;
+    # zsh defaults to vi keybindings when EDITOR contains "vi(m)", which breaks
+    # backspace mid-line and turns stray escape sequences into vi commands.
+    defaultKeymap = "emacs";
     initContent = ''
+      export PATH="$HOME/.npm-global/bin:$PATH"
+
       bindkey $'\e[1;5D' backward-word
       bindkey $'\e[1;5C' forward-word
       bindkey $'\e[5D' backward-word
@@ -145,6 +149,8 @@
   systemd.user.services.zellij-web = {
     Unit = {
       Description = "Zellij web server";
+      X-RestartIfChanged = false;
+      X-StopIfChanged = false;
     };
 
     Service = {
