@@ -1,4 +1,4 @@
-{ config, vars, ... }:
+{ config, lib, pkgs, utils, vars, ... }:
 
 let
   userName = vars.host.primaryUser.name;
@@ -27,9 +27,8 @@ in
     };
   };
 
-  systemd.services.copyparty.unitConfig = {
-    RequiresMountsFor = [ vars.storage.nasMediaMount ];
-  };
+  systemd.services.copyparty =
+    import ../lib/nas-dependent.nix { inherit lib pkgs utils vars; };
 
   systemd.tmpfiles.rules = [
     "d ${vars.storage.nasMediaMount} 0755 root root - -"

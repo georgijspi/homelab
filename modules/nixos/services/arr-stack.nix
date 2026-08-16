@@ -1,8 +1,9 @@
-{ vars, ... }:
+{ lib, pkgs, utils, vars, ... }:
 
 let
   mediaMount = vars.storage.nasMediaMount;
   services = vars.services;
+  nasDependent = import ../lib/nas-dependent.nix { inherit lib pkgs utils vars; };
 in
 {
   # Expected NAS layout configured in the Arr UIs:
@@ -63,11 +64,11 @@ in
   ];
 
   systemd.services = {
-    deluged.unitConfig.RequiresMountsFor = [ mediaMount ];
-    delugeweb.unitConfig.RequiresMountsFor = [ mediaMount ];
-    sonarr.unitConfig.RequiresMountsFor = [ mediaMount ];
-    radarr.unitConfig.RequiresMountsFor = [ mediaMount ];
-    bazarr.unitConfig.RequiresMountsFor = [ mediaMount ];
+    deluged = nasDependent;
+    delugeweb = nasDependent;
+    sonarr = nasDependent;
+    radarr = nasDependent;
+    bazarr = nasDependent;
   };
 
   systemd.tmpfiles.rules = [
