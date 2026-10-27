@@ -12,7 +12,7 @@
 - `hosts/falcon/default.nix`: host entry point, imports host files, base modules, service modules, and third-party flake modules.
 - `hosts/falcon/hardware-configuration.nix`: generated hardware config. Do not edit directly.
 - `hosts/falcon/networking.nix`: static networking, firewall, LAN-only rules, resolved, and SSH.
-- `hosts/falcon/storage.nix`: host storage mounts, including NAS/NFS media mount.
+- `hosts/falcon/storage.nix`: host storage mounts, including the NAS/NFS media mount; the media mount is `noexec` so downloaded content cannot be executed.
 - `modules/nixos/base/users.nix`: local user declaration.
 - `modules/nixos/base/packages.nix`: system-level packages, including the SOPS CLI for editing encrypted secrets.
 - `modules/nixos/base/auto-upgrade.nix`: automatic flake upgrades, GC, and store optimization.
@@ -52,6 +52,7 @@
 - When changing LAN/WAN exposure, update both Traefik routers and firewall rules.
 - Local web dashboards should use configured local wildcard hostnames from `vars.nix` where a route exists; keep raw IPs mainly for health pings or devices without DNS names.
 - Keep Arr stack services LAN/local-only. Sonarr/Radarr should use the NAS mount for both downloads and final libraries so completed torrents can be hardlinked while Deluge keeps seeding. Anime series use a separate Sonarr root folder and Deluge category under the same mount; anime movies stay in the regular movie flow. Bazarr handles general subtitle automation for Sonarr/Radarr libraries and needs write access to the final media folders.
+- Keep the NAS media mount `noexec`; downloaded media must never be executable on Falcon.
 - Homepage layout is intentionally compact: prefer grouped cards and credential-free info widgets before adding new sparse sections.
 - Keep changes flake-compatible and use packages from flake inputs.
 
