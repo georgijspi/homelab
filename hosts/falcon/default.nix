@@ -13,6 +13,7 @@
     ../../modules/nixos/services/adguard.nix
     ../../modules/nixos/services/arr-stack.nix
     ../../modules/nixos/services/audiobookshelf.nix
+    ../../modules/nixos/services/cleanuparr.nix
     ../../modules/nixos/services/copyparty.nix
     ../../modules/nixos/services/ddclient.nix
     ../../modules/nixos/services/deluge.nix

@@ -87,7 +87,7 @@ the live host keep its real inventory out of Git.
 | --- | --- |
 | DNS and ingress | AdGuard Home, Traefik, ddclient |
 | Media | Jellyfin, Audiobookshelf, Immich |
-| Downloads and automation | Deluge, Sonarr, Radarr, Prowlarr, Bazarr |
+| Downloads and automation | Deluge, Sonarr, Radarr, Prowlarr, Bazarr, Cleanuparr |
 | Files and feeds | Copyparty, Tiny Tiny RSS |
 | Remote access | WireGuard, Zellij web |
 | Games and voice | Paper Minecraft, TeamSpeak |
@@ -134,6 +134,9 @@ flowchart TD
     Sonarr --> Deluge[Deluge]
     Radarr --> Deluge
     Deluge --> Downloads[NAS media mount downloads]
+    Cleanuparr[Cleanuparr] --> Deluge
+    Cleanuparr --> Sonarr
+    Cleanuparr --> Radarr
 
     Downloads --> Libraries[NAS media libraries]
     Sonarr --> Libraries
@@ -146,6 +149,8 @@ flowchart TD
 The Arr stack is designed around a shared NAS media mount. Downloads and final
 libraries live under the same mounted storage, which keeps completed torrent
 handling friendly to hardlinks and seeding.
+Cleanuparr inspects download contents, removes and blocklists malicious or
+unimportable releases, and queues replacement searches through Sonarr/Radarr.
 
 ## Secrets
 

@@ -30,6 +30,7 @@
 - `adguard.nix`: AdGuard Home.
 - `arr-stack.nix`: Native Sonarr, Radarr, Prowlarr, and Bazarr services for TV, movie, anime, and subtitle automation, bound locally and routed through Traefik; Sonarr/Radarr/Bazarr share the NAS media mount with Deluge/Jellyfin.
 - `audiobookshelf.nix`: Audiobookshelf on the NAS media mount.
+- `cleanuparr.nix`: Native Cleanuparr service for malicious-download blocking, queue cleanup, blocklisting, and replacement searches; its UI is LAN-only through Traefik.
 - `copyparty.nix`: Copyparty bound locally and served through Traefik.
 - `ddclient.nix`: Cloudflare dynamic DNS updater.
 - `deluge.nix`: Deluge daemon and web UI.
@@ -52,6 +53,7 @@
 - When changing LAN/WAN exposure, update both Traefik routers and firewall rules.
 - Local web dashboards should use configured local wildcard hostnames from `vars.nix` where a route exists; keep raw IPs mainly for health pings or devices without DNS names.
 - Keep Arr stack services LAN/local-only. Sonarr/Radarr should use the NAS mount for both downloads and final libraries so completed torrents can be hardlinked while Deluge keeps seeding. Anime series use a separate Sonarr root folder and Deluge category under the same mount; anime movies stay in the regular movie flow. Bazarr handles general subtitle automation for Sonarr/Radarr libraries and needs write access to the final media folders.
+- Cleanuparr should remain loopback-bound and LAN-only through Traefik. Its runtime configuration and credentials live in `/var/lib/cleanuparr`, not in tracked Nix files.
 - Keep the NAS media mount `noexec`; downloaded media must never be executable on Falcon.
 - Homepage layout is intentionally compact: prefer grouped cards and credential-free info widgets before adding new sparse sections.
 - Keep changes flake-compatible and use packages from flake inputs.

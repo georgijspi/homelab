@@ -5,6 +5,8 @@ let
   services = vars.services;
   storage = vars.storage;
   homepage = services.homepage;
+  cleanuparrHost = "cleanuparr.${vars.domain.localRoot}";
+  cleanuparrUrl = httpUrl "127.0.0.1" 11011;
 
   httpUrl = host: port: "http://${host}:${toString port}";
   httpsUrl = host: "https://${host}";
@@ -181,6 +183,14 @@ in
               description = "Subtitle automation";
               icon = "bazarr.png";
               ping = httpUrl services.bazarr.host services.bazarr.port;
+            };
+          }
+          {
+            "Cleanuparr" = compactCard // {
+              href = httpsUrl cleanuparrHost;
+              description = "Malware blocking and queue cleanup";
+              icon = "mdi-broom";
+              ping = cleanuparrUrl;
             };
           }
         ];

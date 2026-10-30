@@ -4,6 +4,8 @@ let
   domain = vars.domain;
   hosts = domain.hosts;
   services = vars.services;
+  cleanuparrHost = "cleanuparr.${domain.localRoot}";
+  cleanuparrUrl = httpUrl "127.0.0.1" 11011;
 
   hostRule = host: "Host(`${host}`)";
   httpUrl = host: port: "http://${host}:${toString port}";
@@ -127,6 +129,15 @@ in
       [http.routers.bazarr-lan.tls]
         certResolver = "cloudflare"
 
+      [http.routers.cleanuparr-lan]
+        rule = "${hostRule cleanuparrHost}"
+        service = "cleanuparr-service"
+        entryPoints = [ "websecure" ]
+        middlewares = ${tomlStringArray [ "lan-only" "forwarded-headers" ]}
+
+      [http.routers.cleanuparr-lan.tls]
+        certResolver = "cloudflare"
+
       [http.routers.jellyfin-wan]
         rule = "${hostRule hosts.jellyfin}"
         service = "jellyfin-service"
@@ -207,6 +218,9 @@ in
 
       [[http.services.bazarr-service.loadBalancer.servers]]
         url = "${httpUrl services.bazarr.host services.bazarr.port}"
+
+      [[http.services.cleanuparr-service.loadBalancer.servers]]
+        url = "${cleanuparrUrl}"
 
       [[http.services.audiobookshelf-service.loadBalancer.servers]]
         url = "${httpUrl services.audiobookshelf.host services.audiobookshelf.port}"
